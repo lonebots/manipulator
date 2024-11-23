@@ -1,0 +1,1 @@
+ros2 launch urdf_tutorial display.launch.py model:=<absolute_file_path_to_urdf>
