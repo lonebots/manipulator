@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>robot_arm</name>
+  <version>0.0.0</version>
+  <description>A package for a robotic arm with Gazebo simulation and ROS 2 integration.</description>
+  <maintainer email="jishnusurajila@gmail.com">jishnu</maintainer>
+  <license>TODO: License declaration</license>
+
+  <!-- Core ROS dependencies -->
+  <depend>rclpy</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>joint_state_publisher_gui</depend>
+  <depend>rviz2</depend>
+
+  <!-- Gazebo dependencies -->
+  <build_depend>gazebo_ros</build_depend>
+  <build_depend>gazebo_ros_control</build_depend>
+  <build_depend>gazebo_dev</build_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>gazebo_ros_control</exec_depend>
+
+  <!-- URDF and xacro dependencies -->
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+
+  <!-- Build and testing dependencies -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+  <test_depend>ros2test</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<robot name="arm_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Base Link -->
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.2 0.2 0.1" />
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.2 0.2 0.1" />
+            </geometry>
+        </collision>
+        <!-- Gazebo tag for base link -->
+        <gazebo>
+            <material>Gazebo/Blue</material>
+            <static>true</static>
+        </gazebo>
+    </link>
+
+    <!-- Link 1 -->
+    <link name="link_1">
+        <inertial>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <mass value="0.5" />
+            <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.4" radius="0.05" />
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.4" radius="0.05" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Joint 1 -->
+    <joint name="joint_1" type="revolute">
+        <parent link="base_link" />
+        <child link="link_1" />
+        <origin xyz="0 0 0.1" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-1.57" upper="1.57" effort="10" velocity="1" />
+    </joint>
+
+    <!-- Link 2 -->
+    <link name="link_2">
+        <inertial>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <mass value="0.5" />
+            <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.4" radius="0.05" />
+            </geometry>
+            <material name="green">
+                <color rgba="0 1 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.4" radius="0.05" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Joint 2 -->
+    <joint name="joint_2" type="revolute">
+        <parent link="link_1" />
+        <child link="link_2" />
+        <origin xyz="0 0 0.4" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+        <limit lower="-1.57" upper="1.57" effort="10" velocity="1" />
+    </joint>
+
+    <!-- End Effector -->
+    <link name="link_3">
+        <inertial>
+            <origin xyz="0 0 0.1" rpy="0 0 0" />
+            <mass value="0.3" />
+            <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.03" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.1" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.05" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 1 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.1" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.05" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Joint 3 -->
+    <joint name="joint_3" type="revolute">
+        <parent link="link_2" />
+        <child link="link_3" />
+        <origin xyz="0 0 0.4" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <limit lower="-1.57" upper="1.57" effort="10" velocity="1" />
+    </joint>
+
+    <!-- Transmissions for Joint Control -->
+    <transmission name="trans_joint_1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_1">
+            <hardwareInterface>effort_controllers/JointPositionController</hardwareInterface>
+        </joint>
+        <actuator name="motor_joint_1">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_2">
+            <hardwareInterface>effort_controllers/JointPositionController</hardwareInterface>
+        </joint>
+        <actuator name="motor_joint_2">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_3">
+            <hardwareInterface>effort_controllers/JointPositionController</hardwareInterface>
+        </joint>
+        <actuator name="motor_joint_3">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <!-- Gazebo ROS Control Plugin -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+    </gazebo>
+</robot>

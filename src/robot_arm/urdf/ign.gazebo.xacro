@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo>
+        <plugin name="ign_ros2_control" filename="libign_ros2_control-system.so">
+            <ros>
+                <namespace>/</namespace>
+            </ros>
+        </plugin>
+    </gazebo>
+
+</robot>
